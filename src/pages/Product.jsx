@@ -4,6 +4,11 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { publicRequest } from "../requestMethods";
+import { addProduct } from "../redux/cartRedux";
+import { useDispatch } from "react-redux";
 
 const Container = styled.div``
 const Wrapper = styled.div`
@@ -66,31 +71,59 @@ const Button = styled.button`
 `
 
 const Product = () => {
+    const location = useLocation();
+    const productId = location.pathname.split('/')[2];
+    const [product, setProduct] = useState({});
+    const [quantity, setQuantity] = useState(1);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const getProduct = async () => {
+            try {
+                const res = await publicRequest.get(`/products/${productId}`);
+                setProduct(res.data);
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        getProduct();
+    }, [productId]);
+
+    const handleQuantity = (type) => {
+        if (type === "dec") {
+            if (quantity <= 1) return
+            setQuantity(quantity - 1);
+        } else {
+            setQuantity(quantity + 1);
+        }
+    }
+
+    const handleClick = () => {
+        //update cart
+        dispatch(addProduct({ ...product, quantity }))
+    }
+
     return (
         <Container>
             <Navbar />
             <Announcement />
             <Wrapper>
                 <ImgContainer>
-                    <Image src="https://images.pexels.com/photos/3797991/pexels-photo-3797991.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
+                    <Image src={product.image} />
                 </ImgContainer>
                 <InfoContainer>
-                    <Title>Living Room Light</Title>
+                    <Title>{product.name}</Title>
                     <Desc>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                        venenatis, dolor in finibus malesuada, lectus ipsum porta nunc, at
-                        iaculis arcu nisi sed mauris. Nulla fermentum vestibulum ex, eget
-                        tristique tortor pretium ut. Curabitur elit justo, consequat id
-                        condimentum ac, volutpat ornare.
+                        {product.description}
                     </Desc>
                     <AddContainer>
-                        <Price>Rs. 11000</Price>
+                        <Price>Rs. {product.price}</Price>
                         <AmountContainer>
-                            <RemoveCircleOutlineIcon />
-                            <Amount>1</Amount>
-                            <AddCircleOutlineIcon />
+                            <RemoveCircleOutlineIcon onClick={() => handleQuantity("dec")} />
+                            <Amount>{quantity}</Amount>
+                            <AddCircleOutlineIcon onClick={() => handleQuantity("inc")} />
                         </AmountContainer>
-                        <Button>ADD TO CART</Button>
+                        <Button onClick={handleClick}>ADD TO CART</Button>
                     </AddContainer>
                 </InfoContainer>
             </Wrapper>

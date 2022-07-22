@@ -1,12 +1,13 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Container = styled.div`
-    max-width: 100vw;
+    width: 100%;
     height: 100vh;
     display: flex;
-    background-color: #FFF9CA;
     // justify-content: space-between;
     align-items: center;
+    background-color: #FFF9CA;
 `
 
 const ImageContainer = styled.div`
@@ -49,7 +50,9 @@ const Welcome = () => {
             <InfoContainer>
                 <Title>SUMMER SALE</Title>
                 <Info>SHOP NOW AND GET 30% OFF!</Info>
-                <Button>Shop Now</Button>
+                <Link to="/products">
+                    <Button>Shop Now</Button>
+                </Link>
             </InfoContainer>
         </Container>
     );

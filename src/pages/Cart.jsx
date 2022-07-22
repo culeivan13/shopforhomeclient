@@ -1,5 +1,7 @@
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
@@ -23,7 +25,6 @@ const Top = styled.div`
   padding: 20px;
   margin-bottom: 10px;
 `;
-
 
 const TopTexts = styled.div`
 `;
@@ -141,92 +142,75 @@ const Buttons = styled.div`
 `
 
 const Cart = () => {
-    return (
-        <Container>
-            <Navbar />
-            <Announcement />
-            <Wrapper>
-                <Title>YOUR CART</Title>
-                <Top>
-                    <TopTexts>
-                        <TopText>Shopping Cart (2)</TopText>
-                        <TopText>Your Wishlist (0)</TopText>
-                    </TopTexts>
-                </Top>
-                <Bottom>
-                    <Info>
-                        <Product>
-                            <ProductDetail>
-                                <Image src="https://images.pexels.com/photos/4846097/pexels-photo-4846097.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
-                                <Details>
-                                    <ProductName>
-                                        <b>Product:</b> COUCH
-                                    </ProductName>
-                                    <ProductId>
-                                        <b>ID:</b> 93813718293
-                                    </ProductId>
-                                </Details>
-                            </ProductDetail>
-                            <PriceDetail>
-                                <ProductAmountContainer>
-                                    <AddCircleOutlineIcon />
-                                    <ProductAmount>2</ProductAmount>
-                                    <RemoveCircleOutlineIcon />
-                                </ProductAmountContainer>
-                                <ProductPrice>Rs 18000</ProductPrice>
-                            </PriceDetail>
-                        </Product>
-                        <Hr />
-                        <Product>
-                            <ProductDetail>
-                                <Image src="https://images.pexels.com/photos/6309132/pexels-photo-6309132.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
-                                <Details>
-                                    <ProductName>
-                                        <b>Product:</b> WALL HANGING LIGHTS
-                                    </ProductName>
-                                    <ProductId>
-                                        <b>ID:</b> 93813718293
-                                    </ProductId>
-                                </Details>
-                            </ProductDetail>
-                            <PriceDetail>
-                                <ProductAmountContainer>
-                                    <AddCircleOutlineIcon />
-                                    <ProductAmount>1</ProductAmount>
-                                    <RemoveCircleOutlineIcon />
-                                </ProductAmountContainer>
-                                <ProductPrice>Rs 5000</ProductPrice>
-                            </PriceDetail>
-                        </Product>
-                    </Info>
-                    <Summary>
-                        <SummaryTitle>ORDER SUMMARY</SummaryTitle>
-                        <SummaryItem>
-                            <SummaryItemText>Subtotal</SummaryItemText>
-                            <SummaryItemPrice>Rs 23000</SummaryItemPrice>
-                        </SummaryItem>
-                        <SummaryItem>
-                            <SummaryItemText>Estimated Shipping</SummaryItemText>
-                            <SummaryItemPrice>Rs 2000</SummaryItemPrice>
-                        </SummaryItem>
-                        <SummaryItem>
-                            <SummaryItemText>Shipping Discount</SummaryItemText>
-                            <SummaryItemPrice>Rs -1000</SummaryItemPrice>
-                        </SummaryItem>
-                        <SummaryItem type="total">
-                            <SummaryItemText>Total</SummaryItemText>
-                            <SummaryItemPrice>Rs 24000</SummaryItemPrice>
-                        </SummaryItem>
-                        <Buttons>
-                            <Button>CONTINUE SHOPPING</Button>
-                            <Button>CHECKOUT NOW</Button>
-                        </Buttons>
-                    </Summary>
-                </Bottom>
-            </Wrapper>
-            <Footer />
-        </Container>
-    );
+  const cart = useSelector(state => state.cart);
+  return (
+    <Container>
+      <Navbar />
+      <Announcement />
+      <Wrapper>
+        <Title>YOUR CART</Title>
+        <Top>
+          <TopTexts>
+            <TopText>Shopping Cart ({cart.quantity})</TopText>
+            <TopText>Your Wishlist (0)</TopText>
+          </TopTexts>
+        </Top>
+        <Bottom>
+          <Info>
+            {cart.products.map(product => (<Product>
+              <ProductDetail>
+                <Image src={product.image} />
+                <Details>
+                  <ProductName>
+                    <b>Product:</b> {product.title}
+                  </ProductName>
+                  <ProductId>
+                    <b>ID:</b> {product._id}
+                  </ProductId>
+                </Details>
+              </ProductDetail>
+              <PriceDetail>
+                <ProductAmountContainer>
+                  <AddCircleOutlineIcon />
+                  <ProductAmount>{product.quantity}</ProductAmount>
+                  <RemoveCircleOutlineIcon />
+                </ProductAmountContainer>
+                <ProductPrice>Rs {product.price * product.quantity}</ProductPrice>
+              </PriceDetail>
+            </Product>
+            ))};
+            <Hr />
+          </Info>
+          <Summary>
+            <SummaryTitle>ORDER SUMMARY</SummaryTitle>
+            <SummaryItem>
+              <SummaryItemText>Subtotal</SummaryItemText>
+              <SummaryItemPrice>Rs {cart.total}</SummaryItemPrice>
+            </SummaryItem>
+            <SummaryItem>
+              <SummaryItemText>Estimated Shipping</SummaryItemText>
+              <SummaryItemPrice>Rs 2000</SummaryItemPrice>
+            </SummaryItem>
+            <SummaryItem>
+              <SummaryItemText>Shipping Discount</SummaryItemText>
+              <SummaryItemPrice>Rs -2000</SummaryItemPrice>
+            </SummaryItem>
+            <SummaryItem type="total">
+              <SummaryItemText>Total</SummaryItemText>
+              <SummaryItemPrice>Rs {cart.total}</SummaryItemPrice>
+            </SummaryItem>
+            <Buttons>
+              <Link to="/products">
+                <Button>CONTINUE SHOPPING</Button>
+              </Link>
+              <Button>CHECKOUT NOW</Button>
+            </Buttons>
+          </Summary>
+        </Bottom>
+      </Wrapper>
+      <Footer />
+    </Container>
+  );
 };
 
 export default Cart;
