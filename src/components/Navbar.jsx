@@ -2,8 +2,10 @@ import { Badge } from "@mui/material";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import React from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { logout } from "../redux/userRedux";
+import { resetCart } from "../redux/cartRedux";
 
 const Container = styled.div`
     height: 30px;
@@ -44,10 +46,22 @@ const RightItems = styled.div`
     margin: 0 8px;
 `
 
-// const Wrapper = styled.
+const Button = styled.button`
+    font-size: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+`
 
 const Navbar = () => {
     const cart = useSelector(state => state.cart);
+    const user = useSelector(state => state.user.currentUser);
+    const dispatch = useDispatch();
+
+    const handleLogout = () => {
+        dispatch(resetCart());
+        dispatch(logout());
+    }
 
     return (
         <Container>
@@ -65,15 +79,21 @@ const Navbar = () => {
                 <LeftItems>About Us</LeftItems>
             </Left>
             <Right>
-                <RightItems>Login</RightItems>
-                <RightItems>Register</RightItems>
-                <Link to="/cart">
-                    <RightItems>
-                        <Badge badgeContent={cart.quantity} color="primary">
-                            <ShoppingCartOutlinedIcon />
-                        </Badge>
-                    </RightItems>
-                </Link>
+                {user
+                    ? <>
+                        <RightItems><Button onClick={handleLogout}>Logout</Button></RightItems>
+                        <Link to="/cart">
+                            <RightItems>
+                                <Badge badgeContent={cart.quantity} color="primary">
+                                    <ShoppingCartOutlinedIcon />
+                                </Badge>
+                            </RightItems>
+                        </Link>
+                    </>
+                    : <>
+                        <RightItems><Link to="/login" style={{ textDecoration: "none" }}>Login</Link></RightItems>
+                        <RightItems><Link to="/register" style={{ textDecoration: "none" }}>Register</Link></RightItems>
+                    </>}
             </Right>
         </Container>
     );

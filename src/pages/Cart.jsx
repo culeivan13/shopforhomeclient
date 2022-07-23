@@ -1,11 +1,12 @@
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
+import { resetCart } from '../redux/cartRedux';
 
 const Container = styled.div``;
 
@@ -143,6 +144,9 @@ const Buttons = styled.div`
 
 const Cart = () => {
   const cart = useSelector(state => state.cart);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
   return (
     <Container>
       <Navbar />
@@ -206,7 +210,7 @@ const Cart = () => {
               <Link to="/products">
                 <Button>CONTINUE SHOPPING</Button>
               </Link>
-              <Button>CHECKOUT NOW</Button>
+              <Button onClick={() => history.push("/success")}>CHECKOUT NOW</Button>
             </Buttons>
           </Summary>
         </Bottom>
