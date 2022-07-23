@@ -7,8 +7,8 @@ import Navbar from "../components/Navbar";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { publicRequest } from "../requestMethods";
-import { addProduct } from "../redux/cartRedux";
-import { useDispatch } from "react-redux";
+import { addProduct, updateExistingProduct } from "../redux/cartRedux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Container = styled.div``
 const Wrapper = styled.div`
@@ -75,6 +75,7 @@ const Product = () => {
     const productId = location.pathname.split('/')[2];
     const [product, setProduct] = useState({});
     const [quantity, setQuantity] = useState(1);
+    const cartProducts = useSelector(state => state.cart.products);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -99,8 +100,13 @@ const Product = () => {
     }
 
     const handleClick = () => {
-        //update cart
-        dispatch(addProduct({ ...product, quantity }))
+        for (var i = 0; i < cartProducts.length; i++) {
+            if (cartProducts[i]._id === product._id) {
+                dispatch(updateExistingProduct({ id: cartProducts[i]._id, quantity }));
+                return
+            }
+        }
+        dispatch(addProduct({ ...product, quantity }));
     }
 
     return (

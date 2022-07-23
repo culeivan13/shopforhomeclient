@@ -8,14 +8,22 @@ const Container = styled.div`
     padding: 20px;
     // justify-content: space-between;
 `
+const Title = styled.h2`
+    margin-top: 5px;
+    font-size: 30px;
+    text-align: center;
+`
 
 const Categories = () => {
     return (
-        <Container>
-            {categories.map(item => (
-                <CategoryItem item={item} key={item.id} />
-            ))}
-        </Container>
+        <>
+            <Title>Shop by Category</Title>
+            <Container>
+                {categories.map(item => (
+                    <CategoryItem item={item} key={item.id} />
+                ))}
+            </Container>
+        </>
     );
 }
 

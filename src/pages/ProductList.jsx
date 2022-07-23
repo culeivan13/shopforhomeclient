@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import Products from "../components/Products";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
     
@@ -33,6 +34,15 @@ const Select = styled.select`
 
 const Option = styled.option`
 `
+const Navigation = styled.div``
+const Button = styled.button`
+    font-size: 18px;
+    font-weight: bold;
+    padding: 5px;
+    margin: 0 5px;
+    cursor: pointer;
+    background: none;
+`
 
 const ProductList = () => {
     const location = useLocation();
@@ -52,6 +62,20 @@ const ProductList = () => {
                 <Title>{cat ? cat.toLowerCase().split(' ').map(function (word) {
                     return (word.charAt(0).toUpperCase() + word.slice(1));
                 }).join(' ') : "Products"}</Title>
+                <Navigation>
+                    <Link to="/products">
+                        <Button>All Products</Button>
+                    </Link>
+                    <Link to="/products/furniture">
+                        <Button>Furniture</Button>
+                    </Link>
+                    <Link to="/products/walldecor">
+                        <Button>Wall Decor</Button>
+                    </Link>
+                    <Link to="/products/decoratives">
+                        <Button>Decorative Items</Button>
+                    </Link>
+                </Navigation>
                 <Filter>
                     <FilterText>Sort Products:</FilterText>
                     <Select onChange={handleSort}>

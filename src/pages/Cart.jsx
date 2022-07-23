@@ -157,29 +157,32 @@ const Cart = () => {
         </Top>
         <Bottom>
           <Info>
-            {cart.products.map(product => (<Product>
-              <ProductDetail>
-                <Image src={product.image} />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> {product.title}
-                  </ProductName>
-                  <ProductId>
-                    <b>ID:</b> {product._id}
-                  </ProductId>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <AddCircleOutlineIcon />
-                  <ProductAmount>{product.quantity}</ProductAmount>
-                  <RemoveCircleOutlineIcon />
-                </ProductAmountContainer>
-                <ProductPrice>Rs {product.price * product.quantity}</ProductPrice>
-              </PriceDetail>
-            </Product>
+            {cart.products.map(product => (
+              <>
+                <Product>
+                  <ProductDetail>
+                    <Image src={product.image} />
+                    <Details>
+                      <ProductName>
+                        <b>Product:</b> <Link to={`/product/${product._id}`} style={{ textDecoration: "none" }}>{product.title}</Link>
+                      </ProductName>
+                      <ProductId>
+                        <b>ID:</b> {product._id}
+                      </ProductId>
+                    </Details>
+                  </ProductDetail>
+                  <PriceDetail>
+                    <ProductAmountContainer>
+                      {/* <AddCircleOutlineIcon /> */}
+                      <ProductAmount>{product.quantity}</ProductAmount>
+                      {/* <RemoveCircleOutlineIcon /> */}
+                    </ProductAmountContainer>
+                    <ProductPrice>Rs {product.price * product.quantity}</ProductPrice>
+                  </PriceDetail>
+                </Product>
+                <Hr />
+              </>
             ))};
-            <Hr />
           </Info>
           <Summary>
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
