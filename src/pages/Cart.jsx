@@ -6,7 +6,7 @@ import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import { resetCart } from "../redux/cartRedux";
+import { updateExistingProduct, applyDiscount } from "../redux/cartRedux";
 
 const Container = styled.div``;
 
@@ -139,10 +139,16 @@ const Buttons = styled.div`
   justify-content: space-between;
 `;
 
+const ProductWrapper = styled.div``;
+
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const handleDiscount = () => {
+    dispatch(applyDiscount({ discount: 10 })); //change this 10 value to user discount
+  };
 
   return (
     <Container>
@@ -159,20 +165,12 @@ const Cart = () => {
         <Bottom>
           <Info>
             {cart.products.map((product) => (
-              <div key={product._id}>
+              <ProductWrapper key={product._id}>
                 <Product>
                   <ProductDetail>
                     <Image src={product.image} />
                     <Details>
-                      <ProductName>
-                        <b>Product:</b>{" "}
-                        <Link
-                          to={`/product/${product._id}`}
-                          style={{ textDecoration: "none" }}
-                        >
-                          {product.title}
-                        </Link>
-                      </ProductName>
+                      <ProductName>{product.title}</ProductName>
                       <ProductId>
                         <b>ID:</b> {product._id}
                       </ProductId>
@@ -180,9 +178,27 @@ const Cart = () => {
                   </ProductDetail>
                   <PriceDetail>
                     <ProductAmountContainer>
-                      {/* <AddCircleOutlineIcon /> */}
+                      <RemoveCircleOutlineIcon
+                        onClick={() =>
+                          dispatch(
+                            updateExistingProduct({
+                              id: product._id,
+                              quantity: -1,
+                            })
+                          )
+                        }
+                      />
                       <ProductAmount>{product.quantity}</ProductAmount>
-                      {/* <RemoveCircleOutlineIcon /> */}
+                      <AddCircleOutlineIcon
+                        onClick={() =>
+                          dispatch(
+                            updateExistingProduct({
+                              id: product._id,
+                              quantity: 1,
+                            })
+                          )
+                        }
+                      />
                     </ProductAmountContainer>
                     <ProductPrice>
                       Rs {product.price * product.quantity}
@@ -190,7 +206,7 @@ const Cart = () => {
                   </PriceDetail>
                 </Product>
                 <Hr />
-              </div>
+              </ProductWrapper>
             ))}
             ;
           </Info>
@@ -210,12 +226,12 @@ const Cart = () => {
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>Rs {cart.total}</SummaryItemPrice>
+              <SummaryItemPrice>
+                Rs {cart.total - cart.discount}
+              </SummaryItemPrice>
             </SummaryItem>
             <Buttons>
-              <Link to="/products">
-                <Button>CONTINUE SHOPPING</Button>
-              </Link>
+              <Button onClick={handleDiscount}>APPLY DISCOUNT</Button>
               <Button onClick={() => history.push("/success")}>
                 CHECKOUT NOW
               </Button>
