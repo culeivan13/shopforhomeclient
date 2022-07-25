@@ -1,12 +1,12 @@
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import { useSelector, useDispatch } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import { useSelector, useDispatch } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import { resetCart } from '../redux/cartRedux';
+import { resetCart } from "../redux/cartRedux";
 
 const Container = styled.div``;
 
@@ -27,8 +27,7 @@ const Top = styled.div`
   margin-bottom: 10px;
 `;
 
-const TopTexts = styled.div`
-`;
+const TopTexts = styled.div``;
 
 const TopText = styled.span`
   text-decoration: underline;
@@ -39,7 +38,6 @@ const TopText = styled.span`
 const Bottom = styled.div`
   display: flex;
   justify-content: space-between;
-
 `;
 
 const Info = styled.div`
@@ -73,7 +71,6 @@ const Details = styled.div`
 const ProductName = styled.span``;
 
 const ProductId = styled.span``;
-
 
 const PriceDetail = styled.div`
   flex: 1;
@@ -138,12 +135,12 @@ const Button = styled.button`
 `;
 
 const Buttons = styled.div`
-    display: flex;
-    justify-content: space-between;
-`
+  display: flex;
+  justify-content: space-between;
+`;
 
 const Cart = () => {
-  const cart = useSelector(state => state.cart);
+  const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -161,14 +158,20 @@ const Cart = () => {
         </Top>
         <Bottom>
           <Info>
-            {cart.products.map(product => (
-              <>
+            {cart.products.map((product) => (
+              <div key={product._id}>
                 <Product>
                   <ProductDetail>
                     <Image src={product.image} />
                     <Details>
                       <ProductName>
-                        <b>Product:</b> <Link to={`/product/${product._id}`} style={{ textDecoration: "none" }}>{product.title}</Link>
+                        <b>Product:</b>{" "}
+                        <Link
+                          to={`/product/${product._id}`}
+                          style={{ textDecoration: "none" }}
+                        >
+                          {product.title}
+                        </Link>
                       </ProductName>
                       <ProductId>
                         <b>ID:</b> {product._id}
@@ -181,12 +184,15 @@ const Cart = () => {
                       <ProductAmount>{product.quantity}</ProductAmount>
                       {/* <RemoveCircleOutlineIcon /> */}
                     </ProductAmountContainer>
-                    <ProductPrice>Rs {product.price * product.quantity}</ProductPrice>
+                    <ProductPrice>
+                      Rs {product.price * product.quantity}
+                    </ProductPrice>
                   </PriceDetail>
                 </Product>
                 <Hr />
-              </>
-            ))};
+              </div>
+            ))}
+            ;
           </Info>
           <Summary>
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
@@ -210,7 +216,9 @@ const Cart = () => {
               <Link to="/products">
                 <Button>CONTINUE SHOPPING</Button>
               </Link>
-              <Button onClick={() => history.push("/success")}>CHECKOUT NOW</Button>
+              <Button onClick={() => history.push("/success")}>
+                CHECKOUT NOW
+              </Button>
             </Buttons>
           </Summary>
         </Bottom>
