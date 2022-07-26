@@ -78,11 +78,27 @@ const Login = () => {
       <Wrapper>
         <Title>SIGN IN</Title>
         <Form>
-          <Input placeholder="email" onChange={(e) => setEmail(e.target.value)} />
-          <Input placeholder="password" type="password" onChange={(e) => setPassword(e.target.value)} />
-          <Button onClick={handleClick} disabled={isFetching}>LOGIN</Button>
+          <Input
+            placeholder="email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            placeholder="password"
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button onClick={handleClick} disabled={isFetching}>
+            LOGIN
+          </Button>
           {error && <Error>Authentication failed. Please try again.</Error>}
-          <Register><Link to="/register" style={{ textDecoration: "none" }}>CREATE A NEW ACCOUNT</Link></Register>
+          <Register>
+            <Link
+              to="/register"
+              style={{ textDecoration: "none", fontSize: "14px" }}
+            >
+              CREATE A NEW ACCOUNT
+            </Link>
+          </Register>
         </Form>
       </Wrapper>
     </Container>

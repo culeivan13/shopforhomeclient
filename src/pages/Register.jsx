@@ -1,4 +1,7 @@
 import styled from "styled-components";
+import { useState, useEffect } from "react";
+import { publicRequest } from "../requestMethods";
+
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -21,8 +24,8 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.h1`
-    font-size: 24px;
-    font-weight: 400;
+  font-size: 24px;
+  font-weight: 400;
 `;
 
 const Form = styled.form`
@@ -43,34 +46,113 @@ const Agreement = styled.span`
 `;
 
 const Button = styled.button`
-    width: 20%;
-    border: 2px solid black;
-    padding: 10px;
-    background-color: white;
-    cursor: pointer;
-    margin-bottom: 10px;
-    font-size: 14px;
-    font-weight: 600;
+  width: 20%;
+  border: 2px solid black;
+  padding: 10px;
+  background-color: white;
+  cursor: pointer;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 600;
+`;
+
+const Message = styled.div`
+  font-weight: bold;
+  color: red;
 `;
 
 const Register = () => {
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [email, setEmail] = useState("");
+  const [contact, setContact] = useState("");
+  const [address, setAddress] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+    const registerUser = async () => {
+      try {
+        const mailformat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (
+          firstname === "" ||
+          lastname === "" ||
+          email === "" ||
+          contact === "" ||
+          address === "" ||
+          password === ""
+        ) {
+          setMessage(
+            "One or more field is left empty. Please provide all the details"
+          );
+          return;
+        } else if (password.length < 6) {
+          setMessage("Password must be minimum 6 characters long.");
+          return;
+        } else if (!email.match(mailformat)) {
+          setMessage("Please enter a valid email address.");
+          return;
+        }
+        const res = await publicRequest.post(`/auth/register`, {
+          firstname,
+          lastname,
+          email,
+          password,
+          address,
+          contact,
+        });
+        console.log(res);
+        setMessage("Registered successfully");
+      } catch (err) {
+        console.log(err);
+        setMessage(
+          "Error while registering. All the fields are required. Try again"
+        );
+      }
+    };
+    registerUser();
+  };
+
   return (
     <Container>
       <Wrapper>
         <Title>CREATE AN ACCOUNT</Title>
+        {message && <Message>{message}</Message>}
         <Form>
-          <Input placeholder="firstname" />
-          <Input placeholder="lastname" />
-          <Input placeholder="email" />
-          <Input placeholder="address" />
-          <Input placeholder="contact number" />
-          <Input placeholder="password" />
+          <Input
+            placeholder="firstname"
+            onChange={(e) => setFirstname(e.target.value)}
+          />
+          <Input
+            placeholder="lastname"
+            onChange={(e) => setLastname(e.target.value)}
+          />
+          <Input
+            placeholder="email"
+            onChange={(e) => setEmail(e.target.value)}
+            type="email"
+            required={true}
+          />
+          <Input
+            placeholder="address"
+            onChange={(e) => setAddress(e.target.value)}
+          />
+          <Input
+            placeholder="contact number"
+            onChange={(e) => setContact(e.target.value)}
+          />
+          <Input
+            placeholder="password"
+            onChange={(e) => setPassword(e.target.value)}
+            type="password"
+          />
           {/* <Input placeholder="confirm password" /> */}
           <Agreement>
             By creating an account, I consent to the processing of my personal
             data in accordance with the <b>PRIVACY POLICY</b>
           </Agreement>
-          <Button>CREATE</Button>
+          <Button onClick={handleRegister}>CREATE</Button>
         </Form>
       </Wrapper>
     </Container>

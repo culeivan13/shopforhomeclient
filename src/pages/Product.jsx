@@ -124,9 +124,15 @@ const Product = () => {
           <AddContainer>
             <Price>Rs. {product.price}</Price>
             <AmountContainer>
-              <RemoveCircleOutlineIcon onClick={() => handleQuantity("dec")} />
-              <Amount>{quantity}</Amount>
-              <AddCircleOutlineIcon onClick={() => handleQuantity("inc")} />
+              {user && (
+                <>
+                  <RemoveCircleOutlineIcon
+                    onClick={() => handleQuantity("dec")}
+                  />
+                  <Amount>{quantity}</Amount>
+                  <AddCircleOutlineIcon onClick={() => handleQuantity("inc")} />
+                </>
+              )}
             </AmountContainer>
             {user && <Button onClick={handleClick}>ADD TO CART</Button>}
           </AddContainer>
