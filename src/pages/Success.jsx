@@ -4,11 +4,12 @@ import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { resetCart } from "../redux/cartRedux";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { publicRequest } from "../requestMethods";
 
 const Container = styled.div`
   display: flex;
-  min-height: 70vh;
+  min-height: 40vh;
   justify-content: center;
   align-items: center;
 `;
@@ -21,29 +22,75 @@ const Success = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.user);
-  const [total, setTotal] = useState(0);
-  const [discount, setDiscount] = useState(0);
-  const [name, setName] = useState("");
+  const [message, setMessage] = useState(`Dear, ${
+    user.currentUser.name
+  }. Please confirm a purchase of Rs.${cart.total - cart.discount}. You
+    are getting a discount of Rs.
+    ${cart.discount}. Please click on confirm to pay.`);
 
-  useEffect(() => {
-    setTotal(cart.total);
-    setDiscount(cart.discount);
-    setName(user.currentUser.name);
+  const handleSales = () => {
+    const generateSale = async () => {
+      const userId = user.currentUser.id;
+      const totalPrice = cart.total;
+      const discountPrice = cart.discount;
+      const products = [];
+
+      cart.products.forEach((product) => {
+        products.push({
+          productId: product._id,
+          quantity: product.quantity,
+        });
+      });
+
+      const data = {
+        userId,
+        products,
+        total: totalPrice,
+        discount: discountPrice,
+        net: totalPrice - discountPrice,
+      };
+      console.log(data);
+      try {
+        const res = await publicRequest.post("/sales/add", data);
+        console.log(res);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    generateSale();
+    setMessage("Purchase successful. Thank you for shopping with us.");
     dispatch(resetCart());
-  }, []);
+  };
 
   return (
     <>
-      <Navbar></Navbar>
-      <Announcement></Announcement>
+      <Navbar />
+      <Announcement />
       <Container>
-        <Message>
-          Dear, {name}. Purchase of Rs.{total - discount} was successful. You
-          got a discount of Rs.
-          {discount}. Your order will be delivered shortly.
-        </Message>
+        <Message>{message}</Message>
       </Container>
-      <Footer></Footer>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          marginBottom: "10px",
+        }}
+      >
+        <button
+          onClick={handleSales}
+          style={{
+            background: "none",
+            padding: "10px",
+            border: "2px solid black",
+            fontWeight: "bold",
+            cursor: "pointer",
+          }}
+        >
+          Confirm
+        </button>
+      </div>
+      <Footer />
     </>
   );
 };

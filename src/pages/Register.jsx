@@ -105,10 +105,15 @@ const Register = () => {
         console.log(res);
         setMessage("Registered successfully");
       } catch (err) {
-        console.log(err);
-        setMessage(
-          "Error while registering. All the fields are required. Try again"
-        );
+        if (err.response.data.code === 11000) {
+          setMessage(
+            "Email already taken. Try again with a different email id."
+          );
+        } else {
+          setMessage(
+            "Error while registering. All the fields are required. Try again"
+          );
+        }
       }
     };
     registerUser();
