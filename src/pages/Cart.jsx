@@ -143,11 +143,12 @@ const ProductWrapper = styled.div``;
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
+  const user = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
   const history = useHistory();
 
   const handleDiscount = () => {
-    dispatch(applyDiscount({ discount: 10 })); //change this 10 value to user discount
+    dispatch(applyDiscount({ discount: user.discount }));
   };
 
   return (

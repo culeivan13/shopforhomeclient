@@ -8,13 +8,14 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect
+  Redirect,
 } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Success from "./pages/Success";
+import Wishlist from "./pages/WishList";
 
 function App() {
-  const user = useSelector(state => state.user.currentUser);
+  const user = useSelector((state) => state.user.currentUser);
   return (
     <Router>
       <Switch>
@@ -32,6 +33,9 @@ function App() {
         </Route>
         <Route exact path="/cart">
           {user ? <Cart /> : <Redirect to="/login" />}
+        </Route>
+        <Route exact path="/wishlist">
+          {user ? <Wishlist /> : <Redirect to="/login" />}
         </Route>
         <Route exact path="/login">
           {user ? <Redirect to="/" /> : <Login />}

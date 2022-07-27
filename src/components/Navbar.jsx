@@ -1,11 +1,13 @@
 import { Badge } from "@mui/material";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import React from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../redux/userRedux";
 import { resetCart } from "../redux/cartRedux";
+import { resetWish } from "../redux/wishlistRedux";
 
 const Container = styled.div`
   height: 30px;
@@ -56,10 +58,12 @@ const Button = styled.button`
 
 const Navbar = () => {
   const cart = useSelector((state) => state.cart);
+  const wish = useSelector((state) => state.wish);
   const user = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
 
   const handleLogout = () => {
+    dispatch(resetWish());
     dispatch(resetCart());
     dispatch(logout());
   };
@@ -91,6 +95,13 @@ const Navbar = () => {
             <RightItems>
               <Button onClick={handleLogout}>Logout</Button>
             </RightItems>
+            <Link to="/wishlist">
+              <RightItems>
+                <Badge badgeContent={wish.quantity} color="primary">
+                  <FavoriteBorderIcon />
+                </Badge>
+              </RightItems>
+            </Link>
             <Link to="/cart">
               <RightItems>
                 <Badge badgeContent={cart.quantity} color="primary">

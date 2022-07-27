@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { publicRequest } from "../requestMethods";
 import { addProduct, updateExistingProduct } from "../redux/cartRedux";
 import { useDispatch, useSelector } from "react-redux";
+import { addWish } from "../redux/wishlistRedux";
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -40,7 +41,7 @@ const Price = styled.div`
 
 const AddContainer = styled.div`
   display: flex;
-  width: 50%;
+  // width: 50%;
   justify-content: space-between;
   align-items: center;
 `;
@@ -110,6 +111,10 @@ const Product = () => {
     dispatch(addProduct({ ...product, quantity }));
   };
 
+  const handleWish = () => {
+    dispatch(addWish({ ...product }));
+  };
+
   return (
     <Container>
       <Navbar />
@@ -134,6 +139,7 @@ const Product = () => {
                 </>
               )}
             </AmountContainer>
+            {user && <Button onClick={handleWish}>WISHLIST</Button>}
             {user && <Button onClick={handleClick}>ADD TO CART</Button>}
           </AddContainer>
         </InfoContainer>
