@@ -5,51 +5,52 @@ import Product from "./Product";
 import { publicRequest } from "../requestMethods";
 
 const Container = styled.div`
-    // border: 1px solid black;
-    padding: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    // justify-content: space-between;
-`
+  // border: 1px solid black;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  // justify-content: space-between;
+  @media only screen and (max-width: 480px) {
+    flex-direction: column;
+  } ;
+`;
 
 const Products = ({ cat, sort }) => {
-    const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([]);
 
-    useEffect(() => {
-        const getProducts = async () => {
-            try {
-                const res = await publicRequest.get(cat ? `/products/cat/${cat}` : "/products/all");
-                setProducts(res.data);
-            } catch (err) {
-                console.log(err);
-            }
-        }
-        getProducts();
-    }, [cat]);
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const res = await publicRequest.get(
+          cat ? `/products/cat/${cat}` : "/products/all"
+        );
+        setProducts(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getProducts();
+  }, [cat]);
 
-    useEffect(() => {
-        if (sort === "newest") {
-            setProducts((prev) =>
-                [...prev].sort((a, b) => b.createdAt.localeCompare(a.createdAt))
-            );
-        } else if (sort === "asc") {
-            setProducts((prev) =>
-                [...prev].sort((a, b) => a.price - b.price)
-            );
-        } else {
-            setProducts((prev) =>
-                [...prev].sort((a, b) => b.price - a.price)
-            );
-        }
-    }, [sort]);
+  useEffect(() => {
+    if (sort === "newest") {
+      setProducts((prev) =>
+        [...prev].sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+      );
+    } else if (sort === "asc") {
+      setProducts((prev) => [...prev].sort((a, b) => a.price - b.price));
+    } else {
+      setProducts((prev) => [...prev].sort((a, b) => b.price - a.price));
+    }
+  }, [sort]);
 
-    return (
-        <Container>
-            {products.map(item => (
-                <Product item={item} key={item._id} />
-            ))}
-        </Container>
-    );
-}
+  return (
+    <Container>
+      {products.map((item) => (
+        <Product item={item} key={item._id} />
+      ))}
+    </Container>
+  );
+};
 
 export default Products;

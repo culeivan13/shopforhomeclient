@@ -23,6 +23,9 @@ const Wrapper = styled.div`
   width: 25%;
   padding: 20px;
   background-color: white;
+  @media only screen and (max-width: 480px) {
+    width: 90%;
+  } ;
 `;
 
 const Title = styled.h1`
@@ -51,6 +54,9 @@ const Button = styled.button`
   margin-bottom: 10px;
   font-size: 14px;
   font-weight: 600;
+  @media only screen and (max-width: 480px) {
+    width: 40%;
+  } ;
 `;
 
 const Register = styled.a`

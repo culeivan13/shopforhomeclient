@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { publicRequest } from "../requestMethods";
 
 const Container = styled.div`
@@ -21,6 +21,9 @@ const Wrapper = styled.div`
   width: 40%;
   padding: 20px;
   background-color: white;
+  @media only screen and (max-width: 480px) {
+    width: 90%;
+  } ;
 `;
 
 const Title = styled.h1`
@@ -54,6 +57,9 @@ const Button = styled.button`
   margin-bottom: 10px;
   font-size: 14px;
   font-weight: 600;
+  @media only screen and (max-width: 480px) {
+    width: 40%;
+  } ;
 `;
 
 const Message = styled.div`

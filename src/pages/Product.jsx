@@ -15,6 +15,9 @@ const Container = styled.div``;
 const Wrapper = styled.div`
   padding: 20px;
   display: flex;
+  @media only screen and (max-width: 480px) {
+    flex-direction: column;
+  } ;
 `;
 const ImgContainer = styled.div`
   flex: 1;
@@ -27,6 +30,9 @@ const Image = styled.img`
 const InfoContainer = styled.div`
   flex: 2;
   padding: 0 15px;
+  @media only screen and (max-width: 480px) {
+    text-align: center;
+  } ;
 `;
 const Title = styled.h1`
   font-weight: 400;
@@ -44,6 +50,11 @@ const AddContainer = styled.div`
   // width: 50%;
   justify-content: space-between;
   align-items: center;
+  // border: 1px solid black;
+  @media only screen and (max-width: 480px) {
+    flex-direction: column;
+    gap: 10px;
+  } ;
 `;
 const AmountContainer = styled.div`
   display: flex;
@@ -124,7 +135,7 @@ const Product = () => {
           <Image src={product.image} />
         </ImgContainer>
         <InfoContainer>
-          <Title>{product.name}</Title>
+          <Title>{product.title}</Title>
           <Desc>{product.description}</Desc>
           <AddContainer>
             <Price>Rs. {product.price}</Price>

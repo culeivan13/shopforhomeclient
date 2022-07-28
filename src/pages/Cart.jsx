@@ -38,6 +38,9 @@ const TopText = styled.span`
 const Bottom = styled.div`
   display: flex;
   justify-content: space-between;
+  @media only screen and (max-width: 480px) {
+    flex-direction: column;
+  } ;
 `;
 
 const Info = styled.div`
@@ -48,17 +51,27 @@ const Product = styled.div`
   padding: 10px;
   display: flex;
   justify-content: space-between;
+  @media only screen and (max-width: 480px) {
+    flex-direction: column;
+  } ;
 `;
 
 const ProductDetail = styled.div`
   flex: 2;
   display: flex;
+  @media only screen and (max-width: 480px) {
+    flex-direction: column;
+  } ;
 `;
 
 const Image = styled.img`
   width: 200px;
   height: 20vh;
   object-fit: cover;
+  @media only screen and (max-width: 480px) {
+    width: 100%;
+    min-height: 40vh;
+  } ;
 `;
 
 const Details = styled.div`
@@ -66,6 +79,9 @@ const Details = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  @media only screen and (max-width: 480px) {
+    align-items: center;
+  } ;
 `;
 
 const ProductName = styled.span``;
@@ -84,16 +100,26 @@ const ProductAmountContainer = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+  @media only screen and (max-width: 480px) {
+    margin-bottom: 2px;
+  } ;
 `;
 
 const ProductAmount = styled.div`
   font-size: 24px;
   margin: 5px;
+  @media only screen and (max-width: 480px) {
+    font-size: 20px;
+  } ;
 `;
 
 const ProductPrice = styled.div`
   font-size: 30px;
   font-weight: 200;
+  @media only screen and (max-width: 480px) {
+    font-size: 20px;
+    font-weight: 400;
+  } ;
 `;
 
 const Hr = styled.hr`
@@ -209,7 +235,6 @@ const Cart = () => {
                 <Hr />
               </ProductWrapper>
             ))}
-            ;
           </Info>
           <Summary>
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>

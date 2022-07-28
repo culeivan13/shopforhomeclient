@@ -45,17 +45,27 @@ const Product = styled.div`
   padding: 10px;
   display: flex;
   justify-content: space-between;
+  @media only screen and (max-width: 480px) {
+    flex-direction: column;
+  } ;
 `;
 
 const ProductDetail = styled.div`
   flex: 2;
   display: flex;
+  @media only screen and (max-width: 480px) {
+    flex-direction: column;
+  } ;
 `;
 
 const Image = styled.img`
   width: 200px;
   height: 20vh;
   object-fit: cover;
+  @media only screen and (max-width: 480px) {
+    width: 100%;
+    min-height: 40vh;
+  } ;
 `;
 
 const Details = styled.div`
@@ -63,6 +73,10 @@ const Details = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  @media only screen and (max-width: 480px) {
+    align-items: center;
+    padding: 5px;
+  } ;
 `;
 
 const ProductName = styled.span``;
@@ -80,6 +94,10 @@ const PriceDetail = styled.div`
 const ProductPrice = styled.div`
   font-size: 30px;
   font-weight: 200;
+  @media only screen and (max-width: 480px) {
+    font-size: 20px;
+    font-weight: 400;
+  } ;
 `;
 
 const Hr = styled.hr`
@@ -95,6 +113,9 @@ const Button = styled.button`
   font-weight: 600;
   cursor: pointer;
   width: 40%;
+  @media only screen and (max-width: 480px) {
+    margin: 8px 0px;
+  } ;
 `;
 
 const ProductWrapper = styled.div``;
@@ -144,7 +165,6 @@ const Wishlist = () => {
                 <Hr />
               </ProductWrapper>
             ))}
-            ;
           </Info>
         </Bottom>
       </Wrapper>

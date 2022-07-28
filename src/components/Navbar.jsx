@@ -10,12 +10,16 @@ import { resetCart } from "../redux/cartRedux";
 import { resetWish } from "../redux/wishlistRedux";
 
 const Container = styled.div`
-  height: 30px;
+  min-height: 30px;
   padding: 10px 20px;
   // border: 1px solid black;
   display: flex;
   align-items: center;
   // background-color: #B2A4FF;
+  @media only screen and (max-width: 480px) {
+    flex-direction: column;
+    gap: 10px;
+  } ;
 `;
 const Left = styled.div`
   // border: 1px solid red;

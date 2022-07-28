@@ -12,6 +12,9 @@ const Container = styled.div`
   min-height: 40vh;
   justify-content: center;
   align-items: center;
+  @media only screen and (max-width: 480px) {
+    text-align: center;
+  } ;
 `;
 const Message = styled.div`
   font-weight: 500;
