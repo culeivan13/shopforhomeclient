@@ -57,7 +57,7 @@ const Success = () => {
         console.log(err);
       }
     };
-    generateSale();
+    // generateSale();
     setMessage("Purchase successful. Thank you for shopping with us.");
     dispatch(resetCart());
   };
